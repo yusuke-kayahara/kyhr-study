@@ -1,4 +1,4 @@
-# 論文: Bayesian Time Varying Coefficient Model with Applications to Marketing Mix Modeling
+![image](https://github.com/yusuke-kayahara/kyhr-study/assets/89958903/c1178515-5692-441a-88ee-4199c1b5418b)# 論文: Bayesian Time Varying Coefficient Model with Applications to Marketing Mix Modeling
 [Bayesian Time Varying Coefficient Model with Applications to Marketing Mix Modeling](https://arxiv.org/abs/2106.03322)
 
 ## 概要
@@ -12,7 +12,8 @@
     - 係数の変動をモデリングできる
       - 週次・年次トレンドが変わる
       - 共変量の与える影響が変わる
-        - ![image](https://scrapbox.io/files/64d2eb6943c245001b677f46.png)
+        - ![image](https://github.com/yusuke-kayahara/kyhr-study/assets/89958903/c1814993-66a9-4da5-8116-e86cff13409b)
+
 
   - 動的係数モデルと比較
     - 計算量が少ない
@@ -32,7 +33,7 @@
 
 ## 重要ポイント
   - 係数の推定フロー
-    - ![image](https://scrapbox.io/files/64d2577c9d39c7001c250ead.png)
+    - ![image](https://github.com/yusuke-kayahara/kyhr-study/assets/89958903/1a63bd5c-7512-4071-8b33-75e7f7754e11)
   - 係数推定~トレンド項と季節性項の推定
     - 前提
       - tは時点
