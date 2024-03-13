@@ -1,4 +1,5 @@
 # 論文: Bayesian Time Varying Coefficient Model with Applications to Marketing Mix Modeling
+[Bayesian Time Varying Coefficient Model with Applications to Marketing Mix Modeling](https://arxiv.org/abs/2106.03322)
 
 ## 概要
   - Kernel-based Time-varying Regression(KTR)という手法を提案した
