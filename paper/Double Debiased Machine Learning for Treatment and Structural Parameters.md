@@ -1,4 +1,4 @@
-# モデル: DML(Double Machine Learning)
+# 論文: Double/Debiased Machine Learning for Treatmentand Structural Parameters
 ## 概要
   - 名前の通り、2段階の機械学習モデルを用いてCATE(Conditional Average Treatment Effect)を推定する手法
     - CATE: 条件付き平均処置効果、HTE(Heterogeneous Treatment Effect)と似たものとして理解して良い
