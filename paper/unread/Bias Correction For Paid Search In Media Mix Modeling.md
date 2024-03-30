@@ -58,23 +58,23 @@
   - 広告主の検索広告予算に制限がない
   - 検索クエリ量で条件づけるｋとおで、消費者需要や入札や他社の行動などの要因は無視できる
 - DAG
-  ```mermaid
-    graph TD
-      economic_factors --> consumer_demand;
-      consumer_demand --> ε_0;
-      consumer_demand --> search_queries_V;
-      search_queries_V --> auction;
-      search_queries_V --> organic_search;
-      search_queries_V --> search_ad_X;
-      auction --> search_ad_X;
-      organic_search --> ε_1
-      search_ad_X --> β_X
-      subgraph sales
-        ε_0
-        ε_1
-        β_X
-      end
-    ```
+```mermaid
+graph TD
+  economic_factors --> consumer_demand;
+  consumer_demand --> ε_0;
+  consumer_demand --> search_queries_V;
+  search_queries_V --> auction;
+  search_queries_V --> organic_search;
+  search_queries_V --> search_ad_X;
+  auction --> search_ad_X;
+  organic_search --> ε_1
+  search_ad_X --> β_X
+subgraph sales
+  ε_0
+  ε_1
+  β_X
+end
+```
 - 定理
   - 上記DAGが成り立つ場合、下記式を用いて一致性を持って推定できる
   - $Y = \beta_{0} + \beta_{1} X + f(V) + \eta$ 
