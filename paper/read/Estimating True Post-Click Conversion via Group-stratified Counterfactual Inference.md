@@ -29,7 +29,7 @@
     - メモ
       - CVに関してはいつもの反実仮想だか、clickに関しても同じフレームワークで整理するの賢い
 
-## Problem and methodology
+### Problem and methodology
   - DAG
     - ![image](https://scrapbox.io/files/64d73917f8f678001b265db7.png)
   - 問題点
@@ -56,7 +56,7 @@
     - アップリフトモデリングには"free-rider "の考え方が足りない
       - free-rider metricというものを考えましたよ〜
 
-## ESTIMATION
+### ESTIMATION
   - GCI (Group-stratified Countnrfactual Inference )をやるよ〜
   - 前提
     - ※上のDAG参照
