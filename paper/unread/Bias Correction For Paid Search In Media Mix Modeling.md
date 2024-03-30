@@ -58,7 +58,7 @@
   - 広告主の検索広告予算に制限がない
   - 検索クエリ量で条件づけるｋとおで、消費者需要や入札や他社の行動などの要因は無視できる
 - DAG
-  - ```mermaid
+  ```mermaid
     graph TD
       economic_factors --> consumer_demand;
       consumer_demand --> ε_0;
