@@ -75,14 +75,14 @@ subgraph sales
   β_X
 end
 ```
-- 定理
+- 定理1
   - 上記DAGが成り立つ場合、下記式を用いて一致性を持って推定できる
   - $Y = \beta_{0} + \beta_{1} X + f(V) + \eta$ 
 - 注意
   - DAGが成立するか要確認
     - 例: 天候から大きな影響を受けるビジネスの場合は、DAGが成立しない可能性がある
 
-### 4.2 Complex scenario
+#### 4.2 Complex scenario
 - シナリオ
   - 検索広告以外の広告チャンネルが存在する
     - それらは検索量を増加させる可能性がある
@@ -112,7 +112,7 @@ end
 classDef filled fill:#228,stroke:#333,stroke-width:1px;
 class search_ad_X1,non_search_contributions_X2,search_queries_V filled
 ```
-- 定理
+- 定理2
   - 上記DAGが成り立つ場合、下記式を用いて一致性を持って推定できる
   - $Y = \beta_{0} + \beta_{1} X_{1} + f(V,X_{2}) + \eta$
     - f(v,x2): $E(\varepsilon_{0} | V = v, X_{2} = x2) + E(\varepsilon_{1} | V = v) + E(\varepsilon_{2} | X_{2} = x2)$
@@ -121,13 +121,88 @@ class search_ad_X1,non_search_contributions_X2,search_queries_V filled
   - 検索広告コストがほかのメディアコストと直接相関しないケース
   - 省略
 
-### 4.3 Estimation of full MMM
+#### 4.3 Estimation of full MMM
 - 実際のMMMに適用する際の注意
   - $Y = \beta_{0} + \beta_{1} X_{1} + f(V,X_{2}) + \eta$
   - この論文では主に検索広告(X1)の影響推定に焦点を当てている
-  - 実務では非検索広告(X2)の影響も考慮する必要があるが、課題がある
+  - 実務では非検索広告(X2)の影響も考慮する必要があるが、一致性を満たすことが難しい課題がある
 - アイデア
   - 実務で行う際は、バイアス補正方法を用いて検索広告(X1)の効果を推定し、その結果を固定した状態で非検索広告(X2)の効果を推定すると良い
 
-## 5. Implementation
+### 5. Implementation
 - 実装方法の紹介
+
+#### 5.1 Summarization of search query data
+- Step1
+  - 自社と競合他社の特定
+- Step2
+  - 特定の期間・エリアでの全てのクエリを収集する
+  - 各URLがオーガニック検索に表示される回数を集計する
+  - データ構造
+    - $( q_{i}, u_{j}, n_{i,j})$
+      - q_i: i番目のクエリ
+      - u_j: j番目のURL
+      - n_i,j: i番目のクエリでj番目のURLが表示された回数
+- Step3
+  - クエリの集合$S$を下記4グループに分割する
+    - a. 自社
+    - b. 競合他社
+    - c. 自社でも競合でもないが、同業種
+    - d. その他
+  - 任意のクエリ$q_{i}$について、impの合計を下記のように表す
+    - $w_{i,a}$: aグループのimpの合計
+    - $w_{i,total}$: a,b,c,dグループのimpの合計
+    - $w_{i,category}$: a,b,cグループのimpの合計
+  - クエリ集合$S$
+    - $w_{category} / w_{total}$が閾値より高い: カテゴリ寄りと判定
+      - $S_{1}$ : $w_{a} / w_{category}$が閾値より高い: 自社寄りと判定
+      - $S_{2}$ : w_{b} / w_{category}$が閾値より高い: 競合寄りと判定
+      - $S_{3}$ : それ以外: 一般関心と判定
+    - $w_{category} / w_{total}$が閾値より低い: 無視
+    - ※ここでの閾値は50%が有効であるとわかっている
+- Step4
+  - 検索ボリューム$V$
+    - $V_{n,t}$ : 時間軸tの$S_{n}$クエリセットの検索総数
+
+#### 5.2 Model fitting procedure
+- 4.1のシンプルのシナリオの場合
+  - 観測数が十分でない場合
+    - $f(V)$を加法関数として近似する
+    - $Y ~ \beta_{0} + \beta_{1} X + s(V_{1}) + s(V_{2}) + s(V_{3})$ 
+      - s(・)はWood(2006)で提案されたスムース関数
+  - 観測数が十分多い場合
+    - $f(V)$をWood(2006)で提案された3次元の全テンソル積スムースによって近似する
+    - $Y ~ \beta_{0} + \beta_{1} X + te(V_{1},V_{2},V_{3})$
+
+### 6. Case studies in simple scenarios
+- 検索広告が唯一の広告チャンネルであるシナリオにおいて、提案手法の有効性を検証
+
+#### 6.1 Case 1
+- 比較
+  - 提案手法と、ナイーブ推定、カテゴリ検索ボリュームによる需要調整を比較した
+  - ランダムなエリアABテストの結果と比較した
+    - 提案手法が最もエリアテストの結果と近く、別の方法はROASを数倍過大評価していた
+- モデル
+  - $response ~ \beta_{0} + \beta_{1} adspend + s(target) + s(competitiors) + s(general.interest)$
+    - $response$: 売上
+    - $adspend$: 検索広告コスト
+
+#### 6.2 Case 2
+- 省略
+
+#### 6.3 Case 3
+- 省略
+
+#### 6.4 Empirical observations and discussions
+- 省略
+
+### 7. Case studies with complex scenario
+- 検索広告以外にも出稿している広告主の3年分のデータを用いて検証した
+- ナイーブ推定とは違った結果が得られたが、どちらが正しいかに関しては評価はない
+
+### 8. Discussion
+- 本論文の貢献と課題を整理
+- 省略
+
+## メモ
+- 5.2のモデル記述にあったREML、GAM関数、Wood(2006)のスムース関数、REMLアルゴリズム、MGCVライブラリについて調べたい
