@@ -58,29 +58,30 @@
   - 広告主の検索広告予算に制限がない
   - 検索クエリ量で条件づけるｋとおで、消費者需要や入札や他社の行動などの要因は無視できる
 - DAG
-  - ```mermaid
-    graph TD
-      economic_factors --> consumer_demand;
-      consumer_demand --> ε_0;
-      consumer_demand --> search_queries_V;
-      search_queries_V --> auction;
-      search_queries_V --> organic_search;
-      search_queries_V --> search_ad_X;
-      auction --> search_ad_X;
-      organic_search --> ε_1
-      search_ad_X --> β_X
-      subgraph sales
-        ε_0
-        ε_1
-        β_X
-      end
-    ```
+```mermaid
+graph TD
+  economic_factors --> consumer_demand;
+  consumer_demand --> ε_0;
+  consumer_demand --> search_queries_V;
+  search_queries_V --> auction;
+  search_queries_V --> organic_search;
+  search_queries_V --> search_ad_X;
+  auction --> search_ad_X;
+  organic_search --> ε_1
+  search_ad_X --> β_X
+subgraph sales
+  ε_0
+  ε_1
+  β_X
+end
+```
 - 定理
   - 上記DAGが成り立つ場合、下記式を用いて一致性を持って推定できる
   - $Y = \beta_{0} + \beta_{1} X + f(V) + \eta$ 
 - 注意
   - DAGが成立するか要確認
     - 例: 天候から大きな影響を受けるビジネスの場合は、DAGが成立しない可能性がある
+<<<<<<< HEAD
 
 ### 4.2 Complex scenario
 - シナリオ
@@ -88,3 +89,5 @@
     - それらは検索量を増加させる可能性がある
 - DAG
   - 
+=======
+>>>>>>> bd8645afb255c360a833abb9b9ba82b9754f6729
