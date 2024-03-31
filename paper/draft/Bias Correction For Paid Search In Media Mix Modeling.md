@@ -81,13 +81,53 @@ end
 - 注意
   - DAGが成立するか要確認
     - 例: 天候から大きな影響を受けるビジネスの場合は、DAGが成立しない可能性がある
-<<<<<<< HEAD
 
 ### 4.2 Complex scenario
 - シナリオ
   - 検索広告以外の広告チャンネルが存在する
     - それらは検索量を増加させる可能性がある
 - DAG
-  - 
-=======
->>>>>>> bd8645afb255c360a833abb9b9ba82b9754f6729
+```mermaid
+graph TD
+  economic_factors --> consumer_demand;
+  consumer_demand --> non_search_contributions_X2;
+  non_search_contributions_X2 --> search_queries_V;
+  non_search_contributions_X2 --> ε_2;
+  consumer_demand --> ε_0;
+  consumer_demand --> search_queries_V;
+  search_queries_V --> auction;
+  search_queries_V --> organic_search;
+  search_queries_V --> search_ad_X1;
+  budget --> non_search_contributions_X2;
+  budget --> search_ad_X1;
+  auction --> search_ad_X1;
+  organic_search --> ε_1
+  search_ad_X1 --> β_X
+subgraph sales
+  ε_0
+  ε_1
+  ε_2
+  β_X
+end
+classDef filled fill:#228,stroke:#333,stroke-width:1px;
+class search_ad_X1,non_search_contributions_X2,search_queries_V filled
+```
+- 定理
+  - 上記DAGが成り立つ場合、下記式を用いて一致性を持って推定できる
+  - $Y = \beta_{0} + \beta_{1} X_{1} + f(V,X_{2}) + \eta$
+    - f(v,x2): $E(\varepsilon_{0} | V = v, X_{2} = x2) + E(\varepsilon_{1} | V = v) + E(\varepsilon_{2} | X_{2} = x2)$
+    - ηは残差項で、X1とf(V,X2)とは相関していない
+- シナリオ2
+  - 検索広告コストがほかのメディアコストと直接相関しないケース
+  - 省略
+
+### 4.3 Estimation of full MMM
+- 実際のMMMに適用する際の注意
+  - $Y = \beta_{0} + \beta_{1} X_{1} + f(V,X_{2}) + \eta$
+  - この論文では主に検索広告(X1)の影響推定に焦点を当てている
+  - 実務では非検索広告(X2)の影響も考慮する必要があるが、課題がある
+- アイデア
+  - 実務で行う際は、バイアス補正方法を用いて検索広告(X1)の効果を推定し、その結果を固定した状態で非検索広告(X2)の効果を推定すると良い
+
+## 5. Implementation
+- 実装方法の紹介
