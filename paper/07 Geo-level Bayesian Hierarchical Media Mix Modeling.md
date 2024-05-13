@@ -40,7 +40,7 @@
 
 #### 3.3 Model specification and estimation
 - モデル式
-  - $y_{y,g} = τ_{g} + \sum_{m=1}^{M} \beta_{m,g} \text{Hill}(x_{t,m,g}^{*}(α_{m},L);\mathcal{K}_{m},\mathcal{S}_{m}) + \sum_{c=1}^{C} \gamma_{c,g} z_{c,g} + \epsilon_{t,g}$
+  - $y_{y,g} = τ_{g} + \sum_{m=1}^{M} \beta_{m,g} \text{Hill}(x_{t,m,g}^{*}(α_{m},L);K_{m},S_{m}) + \sum_{c=1}^{C} \gamma_{c,g} z_{c,g} + \epsilon_{t,g}$
     - $\beta_{m,g} \sim \text{Normal}(\beta_{m},\eta_{m}^{2})$
     - $\gamma_{c,g} \sim \text{Normal}(\gamma_{c}, \xi_{c}^{2})$
     - $\tau_{g} \sim \text{Normal}(\tau,\kappa^{2})$
